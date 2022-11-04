@@ -3,15 +3,22 @@
         "displayEmbeds": {
             "welcome": {
                 "title": "Thank you for using {{COM:bot.name}}!",
-                "description": ["{{REF:bot.description}}"],
+                "description": [
+                    "{{REF:bot.description}}"
+                ],
                 "fields": [
                     {
                         "name": "Important {{REF:fields.commands}}",
-                        "value": ["**/{{REF:chatCommands.help}}** - {{REF:commandDescs.help}}"]
+                        "value": [
+                            "**/{{REF:chatCommands.help}}** - {{REF:commandDescs.help}}"
+                        ]
                     },
                     {
                         "name": "{{REF:fields.links}}",
-                        "value": ["{{REF:links.docsEmbed}}", "{{REF:links.supportEmbed}}"]
+                        "value": [
+                            "{{REF:links.docsEmbed}}",
+                            "{{REF:links.supportEmbed}}"
+                        ]
                     }
                 ]
             },
@@ -24,7 +31,10 @@
                 "fields": [
                     {
                         "name": "{{REF:fields.links}}",
-                        "value": ["{{REF:links.docsEmbed}}", "{{REF:links.supportEmbed}}"]
+                        "value": [
+                            "{{REF:links.docsEmbed}}",
+                            "{{REF:links.supportEmbed}}"
+                        ]
                     }
                 ]
             },
@@ -34,7 +44,10 @@
                 "fields": [
                     {
                         "name": "{{REF:fields.links}}",
-                        "value": ["{{REF:links.docsEmbed}}", "{{REF:links.supportEmbed}}"]
+                        "value": [
+                            "{{REF:links.docsEmbed}}",
+                            "{{REF:links.supportEmbed}}"
+                        ]
                     }
                 ]
             },
@@ -49,7 +62,10 @@
                 "fields": [
                     {
                         "name": "{{REF:fields.links}}",
-                        "value": ["{{REF:links.docsEmbed}}", "{{REF:links.supportEmbed}}"]
+                        "value": [
+                            "{{REF:links.docsEmbed}}",
+                            "{{REF:links.supportEmbed}}"
+                        ]
                     }
                 ]
             },
@@ -66,7 +82,10 @@
                 "title": "{{COM:bot.name}} - About",
                 "description": "{{REF:bot.description}}",
                 "fields": [
-                    { "name": "Author", "value": "{{REF:links.authorEmbed}}" },
+                    {
+                        "name": "Author",
+                        "value": "{{REF:links.authorEmbed}}"
+                    },
                     {
                         "name": "{{REF:fields.links}}",
                         "value": [
@@ -80,7 +99,9 @@
                     },
                     {
                         "name": "Created With",
-                        "value": ["{{REF:links.templateEmbed}}"]
+                        "value": [
+                            "{{REF:links.templateEmbed}}"
+                        ]
                     }
                 ]
             },
@@ -192,7 +213,8 @@
         "chatCommands": {
             "help": "help",
             "info": "info",
-            "test": "test"
+            "test": "test",
+            "faucet": "faucet"
         },
         "userCommands": {
             "viewDateJoined": "View Date Joined"
@@ -201,16 +223,21 @@
             "viewDateSent": "View Date Sent"
         },
         "arguments": {
-            "option": "option"
+            "option": "option",
+            "network": "network",
+            "token": "token"
         },
         "commandDescs": {
             "help": "Get help with commands, permissions, FAQ, etc.",
             "info": "View bot info.",
-            "test": "Run the test command."
+            "test": "Run the test command.",
+            "faucet": "Request tokens for a network."
         },
         "argDescs": {
             "helpOption": "Option.",
-            "infoOption": "Option."
+            "infoOption": "Option.",
+            "network": "Network.",
+            "token": "Token."
         },
         "fields": {
             "commands": "Commands",
@@ -268,6 +295,17 @@
             "about": "About",
             "translate": "Translate",
             "dev": "Dev"
+        },
+        "faucetNetworkOptions": {
+            "goerli": "goerli",
+            "mumbai": "mumbai",
+            "alfajores": "alfajores"
+        },
+        "faucetTokenOptions": {
+            "ether": "ETH",
+            "matic": "MATIC",
+            "celo": "CELO",
+            "link": "LINK"
         },
         "yesNo": {
             "yes": "Yes",

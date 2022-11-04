@@ -50,6 +50,25 @@ export const ChatCommandMetadata: {
         dm_permission: true,
         default_member_permissions: undefined,
     },
+    FAUCET: {
+        type: ApplicationCommandType.ChatInput,
+        name: Lang.getRef('chatCommands.faucet', Language.Default),
+        name_localizations: Lang.getRefLocalizationMap('chatCommands.faucet'),
+        description: Lang.getRef('commandDescs.faucet', Language.Default),
+        description_localizations: Lang.getRefLocalizationMap('commandDescs.faucet'),
+        dm_permission: true,
+        default_member_permissions: undefined,
+        options: [
+            {
+                ...Args.FAUCET_NETWORK_OPTION,
+                required: true
+            },
+            {
+                ...Args.FAUCET_TOKEN_OPTION,
+                required: true
+            }
+        ]
+    },
 };
 
 export const MessageCommandMetadata: {
