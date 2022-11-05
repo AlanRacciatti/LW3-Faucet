@@ -22,13 +22,25 @@ export class FaucetCommand implements Command {
             ),
         };
 
-        let { id } = intr.user
-        let address: string | null = await FaucetUtils.getAddressFromId(id)
+        let { id } = intr.user;
+        let address: string | null = await FaucetUtils.getAddressFromId(id);
+        let canRequestTokens: boolean = await FaucetUtils.getAddressRequestAvailability(address, args.network, args.token);
 
         let embed: EmbedBuilder;
+
+        if (canRequestTokens) {
+            // TODO: Send tokens and show embed faucetTransaction
+            let tx = await FaucetUtils.sendTokens(address, args.network, args.token);
+        } else {
+            // TODO: Send embed with error
+        }
         switch (args.network) {
             case FaucetNetworkOption.GOERLI: {
-                embed = Lang.getEmbed('displayEmbeds.commands', data.lang);
+                embed = Lang.getEmbed('displayEmbeds.faucetTransaction', data.lang, {
+                    network: args.network,
+                    token: args.token,
+                    amount: "1"
+                });
                 break;
             }
             case FaucetNetworkOption.MUMBAI: {

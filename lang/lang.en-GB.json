@@ -51,6 +51,10 @@
                     }
                 ]
             },
+            "faucetTransaction": {
+                "title": "{{COM:bot.name}} - Faucet",
+                "description": "Sending 0.1 ETH to address 0x6864dC5998c25Db320D3370A53592E44a246FFf4 on Goerli network. [Transaction hash](https://goerli.etherscan.io/tx/0x24693bb515cd2c987e3eb5dd9c2ed1f95f69ae57aaa0bf1e10fb8a67d755eba6)"
+            },
             "faq": {
                 "title": "{{COM:bot.name}} - FAQ",
                 "description": [
