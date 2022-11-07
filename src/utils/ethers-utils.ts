@@ -1,5 +1,5 @@
 import { createRequire } from 'node:module';
-import { ethers, providers, Wallet } from 'ethers';
+import { BigNumber, Contract, ethers, providers, Wallet } from 'ethers';
 import { FaucetNetworkOption } from '../enums/faucet-option.js';
 import { CeloProvider, CeloWallet } from '@celo-tools/celo-ethers-wrapper';
 
@@ -20,38 +20,59 @@ interface Networks {
 
 const require = createRequire(import.meta.url);
 let Config = require('../../config/config.json');
+let abi = require('erc-20-abi');
 
 const networks: Networks = Config.networks;
 const privateKey = Config.privateKey;
 
 export class EthersUtils {
+    private static async getSigner(network): Promise<Wallet> {
+        let signer: Wallet;
+
+        if (network === FaucetNetworkOption.ALFAJORES) {
+            const provider = new CeloProvider(networks[network].nodeUri);
+            await provider.ready;
+            signer = new CeloWallet(privateKey, provider);
+
+        } else {
+            const provider: providers.StaticJsonRpcProvider = new ethers.providers.StaticJsonRpcProvider(networks[network].nodeUri, networks[network].chainId);
+            signer = new ethers.Wallet(privateKey, provider);
+        }
+
+        return signer;
+    }
+
+    private static async getContract(signer: Wallet, address: string): Promise<Contract> {
+        return new ethers.Contract(address, abi, signer);
+    }
+
+    public static async getBalance(
+        network: string,
+        token: string
+    ): Promise<BigNumber> {
+        const signer: Wallet = await this.getSigner(network);
+
+        if (networks[network].tokens[token].isNativeToken) {
+            return await signer.provider.getBalance(signer.address);
+        } else {
+            const contract: Contract = await this.getContract(signer, networks[network].tokens[token].address);
+            return contract.balanceOf(signer.address);
+        }
+    }
+
     public static async sendNativeTokens(
         address: string,
         network: string,
         token: string
     ): Promise<string> {
-        if (network === FaucetNetworkOption.ALFAJORES) {
-            const provider = new CeloProvider(networks[network].nodeUri);
-            await provider.ready;
-            const signer: CeloWallet = new CeloWallet(privateKey, provider);
+        const signer: Wallet = await this.getSigner(network);
 
-            const tx: providers.TransactionResponse = await signer.sendTransaction({
-                to: address,
-                value: ethers.utils.parseEther(networks[network].tokens[token].amount.toString())
-            })
+        const tx: providers.TransactionResponse = await signer.sendTransaction({
+            to: address,
+            value: ethers.utils.parseEther(networks[network].tokens[token].amount.toString())
+        })
 
-            return tx.hash;
-        } else {
-            const provider: providers.StaticJsonRpcProvider = new ethers.providers.StaticJsonRpcProvider(networks[network].nodeUri, networks[network].chainId);
-            const signer: Wallet = new ethers.Wallet(privateKey, provider);
-
-            const tx: providers.TransactionResponse = await signer.sendTransaction({
-                to: address,
-                value: ethers.utils.parseEther(networks[network].tokens[token].amount.toString())
-            })
-
-            return tx.hash;
-        }
+        return tx.hash;
     }
 
     public static async sendTokens(
@@ -59,6 +80,11 @@ export class EthersUtils {
         network: string,
         token: string
     ): Promise<string> {
-        return "0x24693bb515cd2c987e3eb5dd9c2ed1f95f69ae57aaa0bf1e10fb8a67d755eba6";
+        const signer: Wallet = await this.getSigner(network);
+        const contract: Contract = await this.getContract(signer, networks[network].tokens[token].address);
+
+        const tx: providers.TransactionResponse = await contract.transfer(address, ethers.utils.parseEther(networks[network].tokens[token].amount.toString()))
+
+        return tx.hash;
     }
 }

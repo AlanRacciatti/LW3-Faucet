@@ -1,5 +1,7 @@
+import { BigNumber } from 'ethers';
 import { createRequire } from 'node:module';
 import { EthersUtils } from './index.js';
+import { ethers } from 'ethers';
 
 interface Networks {
     [network: string]: {
@@ -57,7 +59,10 @@ export class FaucetUtils {
         network: string,
         token: string
     ): Promise<boolean> {
-        return true;
+        const balance: BigNumber = await EthersUtils.getBalance(network, token);
+        const balanceNeeded: BigNumber = ethers.utils.parseEther(networks[network].tokens[token].amount.toString());
+
+        return balance.gte(balanceNeeded);
     }
 
     public static getAmount(
