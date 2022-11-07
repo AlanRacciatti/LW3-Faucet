@@ -24,6 +24,7 @@
     },
     "links": {
         "author": "https://github.com/AlanRacciatti",
-        "template": "https://github.com/KevinNovak/Discord-Bot-TypeScript-Template"
+        "template": "https://github.com/KevinNovak/Discord-Bot-TypeScript-Template",
+        "support": "https://twitter.com/RockChiin"
     }
 }

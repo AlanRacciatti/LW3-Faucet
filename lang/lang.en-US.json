@@ -51,10 +51,6 @@
                     }
                 ]
             },
-            "faucetTransaction": {
-                "title": "{{COM:bot.name}} - Faucet",
-                "description": "Sending 0.1 ETH to address 0x6864dC5998c25Db320D3370A53592E44a246FFf4 on Goerli network. [Transaction hash](https://goerli.etherscan.io/tx/0x24693bb515cd2c987e3eb5dd9c2ed1f95f69ae57aaa0bf1e10fb8a67d755eba6)"
-            },
             "faq": {
                 "title": "{{COM:bot.name}} - FAQ",
                 "description": [
@@ -151,6 +147,28 @@
                         ]
                     }
                 ]
+            }
+        },
+        "faucetEmbeds": {
+            "transaction": {
+                "title": "{{COM:bot.name}} - Sending funds",
+                "description": "Sending {{amount}} {{token}} to address {{address}} on {{network}} network. [Transaction hash]({{link}})",
+                "color": "{{COM:colors.success}}"
+            },
+            "noBalance": {
+                "title": "{{COM:bot.name}} - Insufficient funds :(",
+                "description": "Faucet hasn't enough {{token}} on {{network}} network. We're sorry :(",
+                "color": "{{COM:colors.error}}"
+            },
+            "notAllowed": {
+                "title": "{{COM:bot.name}} - Request cooldown",
+                "description": "Your next request of {{token}} on {{network}} network can't be done until {{nextRequest}}",
+                "color": "{{COM:colors.warning}}"
+            },
+            "notSupported": {
+                "title": "{{COM:bot.name}} - Token not supported",
+                "description": "You can't request {{token}} in {{network}} network",
+                "color": "{{COM:colors.warning}}"
             }
         },
         "validationEmbeds": {
