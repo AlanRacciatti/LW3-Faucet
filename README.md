@@ -1,30 +1,60 @@
-# Discord Bot TypeScript Template
+# LW3 Faucet
 
-[![discord.js](https://img.shields.io/github/package-json/dependency-version/KevinNovak/Discord-Bot-TypeScript-Template/discord.js)](https://discord.js.org/)
-[![License](https://img.shields.io/badge/license-MIT-blue)](https://opensource.org/licenses/MIT)
-[![Stars](https://img.shields.io/github/stars/KevinNovak/Discord-Bot-TypeScript-Template.svg)](https://github.com/KevinNovak/Discord-Bot-TypeScript-Template/stargazers)
-[![Pull Requests](https://img.shields.io/badge/Pull%20Requests-Welcome!-brightgreen)](https://github.com/KevinNovak/Discord-Bot-TypeScript-Template/pulls)
+This project was made for [LearnWeb3DAO](https://learnweb3.io) as a project for a bountie of EarnWeb3. It uses the [Kevin Novak's Typescript Discord Bot Template](https://github.com/KevinNovak/Discord-Bot-TypeScript-Template).
 
-**Discord bot** - A discord.js bot template written with TypeScript.
+## Command Structure
+The Discord bot accepts a command that looks like this:
 
-## Introduction
+`/faucet <network> <token>` and then disburse a predefined amount of funds (specific to that token on that network) to the ETH address associated with that person's Discord account.
 
-This template was created to give developers a starting point for new Discord bots, so that much of the initial setup can be avoided and developers can instead focus on meaningful bot features. Developers can simply copy this repo, follow the [setup instructions](#setup) below, and have a working bot with many [boilerplate features](#features) already included!
+## Demo
 
-For help using this template, feel free to [join our support server](https://discord.gg/Vyf6fEWbVr)!
+#### Sending funds (attach link to block explorer)
+![Screen Shot 2022-11-07 at 03 42 11](https://user-images.githubusercontent.com/77933451/200242224-d01dd1f6-6428-465e-b593-d6baa68cd4a9.png)
 
-[![Discord Shield](https://discord.com/api/guilds/660711235766976553/widget.png?style=shield)](https://discord.gg/Vyf6fEWbVr)
+#### Tokens not supported
+![Screen Shot 2022-11-07 at 03 48 56](https://user-images.githubusercontent.com/77933451/200243346-30776d6e-7f04-4f70-8f09-93f4a48873f4.png)
+
+#### Request in cooldown
+![Screen Shot 2022-11-07 at 03 47 33](https://user-images.githubusercontent.com/77933451/200243099-eed7e7b5-aab3-45d7-953a-260dc1f13c4f.png)
+
+#### Insufficient funds
+![Screen Shot 2022-11-07 at 03 45 57](https://user-images.githubusercontent.com/77933451/200242852-ae5367ae-8406-4efa-98c9-e375498a1737.png)
+
+## Supported networks
+
+Currently, the following networks are supported by default:
+
+- Ethereum Goerli (ETH & LINK)
+- Polygon Mumbai (MATIC & LINK)
+- Celo Alfajores (CELO)
+
+Anyways, it is possible to add any token of any network (EVM) by using the following interface:
+
+```typescript
+interface Networks {
+    [network: string]: {
+        chainId: number,
+        tokens: {
+            [token: string]: {
+                amount: number,
+                address?: string,
+                isNativeToken?: boolean
+            }
+        },
+        blockExplorer: string
+    }
+}
+```
 
 ## Features
 
-### Built-In Bot Features:
+### Faucet:
 
--   Basic command structure.
--   Rate limits and command cooldowns.
--   Welcome message when joining a server.
--   Shows server count in bot status.
--   Posts server count to popular bot list websites.
--   Support for multiple languages.
+- People can request tokens via the `/faucet <network> <token>` command.
+- Embeds usage for better UI :).
+- Validations with warning/error messages.
+- Cooldown for requesting tokens
 
 ### Developer Friendly:
 
@@ -35,41 +65,22 @@ For help using this template, feel free to [join our support server](https://dis
 -   Support for running with the [PM2](https://pm2.keymetrics.io/) process manger.
 -   Support for running with [Docker](https://www.docker.com/).
 
-### Scales as Your Bot Grows:
+### Connecting to LW3 Backend:
+To send the address based on the Discord ID, you will need to connect to your backend. I've created a function in [faucet-utils.ts](https://github.com/AlanRacciatti/lw3-faucet/blob/main/src/utils/faucet-utils.ts) that you'll have to complete and then the bot will be ready to go
 
--   Supports [sharding](https://discordjs.guide/sharding/) which is required when your bot is in 2500+ servers.
--   Supports [clustering](https://github.com/KevinNovak/Discord-Bot-TypeScript-Template-Master-Api) which allows you to run your bot on multiple machines.
+```typescript
+export class FaucetUtils {
+    public static async getAddressFromId(
+        id: string
+    ): Promise<string | null> {
+        // TODO: Connect to LW3 backend plz
 
-## Commands
+        return "0x6864dC5998c25Db320D3370A53592E44a246FFf4"; // chiin.eth :)
+    }
 
-This bot has a few example commands which can be modified as needed.
-
-### Help Command
-
-A `/help` command to get help on different areas of the bot, like commands or permissions:
-
-![](https://i.imgur.com/0WrN9mZ.png)
-![](https://i.imgur.com/asaAi8o.png)
-![](https://i.imgur.com/h9jXDiW.png)
-
-### Info Command
-
-A `/info` command to get information about the bot, links to different resources, or developer information.
-
-![](https://i.imgur.com/83BEMBS.png)
-![](https://i.imgur.com/I1bPcNM.png)
-
-### Test Command
-
-A generic command, `/test`, which can be copied to create additional commands.
-
-![](https://i.imgur.com/HxzgUO7.png)
-
-### Welcome Message
-
-A welcome message is sent to the server and owner when the bot is added.
-
-![](https://i.imgur.com/APzT9pp.png)
+    // More stuff here...    
+}
+```
 
 ## Setup
 
@@ -86,6 +97,8 @@ A welcome message is sent to the server and owner when the bot is added.
     - You'll need to edit the following values:
         - `client.id` - Your discord bot's [user ID](https://techswift.org/2020/04/22/how-to-find-your-user-id-on-discord/).
         - `client.token` - Your discord bot's token.
+        - `privateKey` - The private key of the account that will be sending funds.
+        - `networks.{network}.nodeUri` - The URI to the node providers.
 4. Install packages.
     - Navigate into the downloaded source files and type `npm install`.
 5. Register commands.
@@ -94,33 +107,15 @@ A welcome message is sent to the server and owner when the bot is added.
         - Run this script any time you change a command name, structure, or add/remove commands.
         - This is so Discord knows what your commands look like.
         - It may take up to an hour for command changes to appear.
+6. Start the bot.
+    - Run `npm start` and let the faucet send funds to your students :).
 
-## Start Scripts
 
-You can run the bot in multiple modes:
+### Support
+This project has **a lot** of code that came with the template and I'm not using that I definitely need to clean up. Anyways, at the beginning it will be possible to be used. If you want to take to what I've made, the most important files are:
 
-1. Normal Mode
-    - Type `npm start`.
-    - Starts a single instance of the bot.
-2. Manager Mode
-    - Type `npm run start:manager`.
-    - Starts a shard manager which will spawn multiple bot shards.
-3. PM2 Mode
-    - Type `npm run start:pm2`.
-    - Similar to Manager Mode but uses [PM2](https://pm2.keymetrics.io/) to manage processes.
-
-## Bots Using This Template
-
-A list of Discord bots using this template.
-
-| Bot                                                                    | Servers                                                       |
-| ---------------------------------------------------------------------- | ------------------------------------------------------------- |
-| [Birthday Bot](https://top.gg/bot/656621136808902656)                  | ![](https://top.gg/api/widget/servers/656621136808902656.svg) |
-| [QOTD Bot](https://top.gg/bot/713586207119900693)                      | ![](https://top.gg/api/widget/servers/713586207119900693.svg) |
-| [Friend Time](https://top.gg/bot/471091072546766849)                   | ![](https://top.gg/api/widget/servers/471091072546766849.svg) |
-| [Bento](https://top.gg/bot/787041583580184609)                         | ![](https://top.gg/api/widget/servers/787041583580184609.svg) |
-| [NFT-Info](https://top.gg/bot/902249456072818708)                      | ![](https://top.gg/api/widget/servers/902249456072818708.svg) |
-| [Skylink-IF](https://top.gg/bot/929527099922993162)                    | ![](https://top.gg/api/widget/servers/929527099922993162.svg) |
-| [Topcoder TC-101](https://github.com/topcoder-platform/tc-discord-bot) |                                                               |
-
-Don't see your bot listed? [Contact us](https://discord.gg/Vyf6fEWbVr) to have your bot added!
+- src/commands/chat/faucet-command.ts - Event listener that responds with an embed.
+- src/commands/args.ts - Declaration of the `FAUCET_NETWORK_OPTION` and the `FAUCET_TOKEN_OPTION`, with the possible args to the `/faucet` command
+- src/utils/faucet-utils.ts - Declaration of the functions with the logics that uses the `faucet-command.ts` file. **Important**: Here you will integrate your backend in the `getAddressFromId(id: string): Promise<string | null>` function.
+- src/utils/ethers-utils.ts - Functions that interact with the blockchain. e.g: `sendTokens`, `getBalance`
+- lang/lang.en-US.json - JSON where is stored the data of the embeds, the arguments to the `/faucet` commands, etc.
