@@ -114,8 +114,8 @@ export class FaucetUtils {
 ### Support
 This project has **a lot** of code that came with the template and I'm not using that I definitely need to clean up. Anyways, at the beginning it will be possible to be used. If you want to take to what I've made, the most important files are:
 
-- src/commands/chat/faucet-command.ts - Event listener that responds with an embed.
-- src/commands/args.ts - Declaration of the `FAUCET_NETWORK_OPTION` and the `FAUCET_TOKEN_OPTION`, with the possible args to the `/faucet` command
-- src/utils/faucet-utils.ts - Declaration of the functions with the logics that uses the `faucet-command.ts` file. **Important**: Here you will integrate your backend in the `getAddressFromId(id: string): Promise<string | null>` function.
-- src/utils/ethers-utils.ts - Functions that interact with the blockchain. e.g: `sendTokens`, `getBalance`
-- lang/lang.en-US.json - JSON where is stored the data of the embeds, the arguments to the `/faucet` commands, etc.
+- [src/commands/chat/faucet-command.ts](https://github.com/AlanRacciatti/lw3-faucet/blob/main/src/commands/chat/faucet-command.ts) - Event listener that responds with an embed.
+- [src/commands/args.ts](https://github.com/AlanRacciatti/lw3-faucet/blob/main/src/commands/args.ts) - Declaration of the `FAUCET_NETWORK_OPTION` and the `FAUCET_TOKEN_OPTION`, with the possible args to the `/faucet` command
+- [src/utils/faucet-utils.ts](https://github.com/AlanRacciatti/lw3-faucet/blob/main/src/utils/faucet-utils.ts) - Declaration of the functions with the logics that uses the `faucet-command.ts` file. **Important**: Here you will integrate your backend in the `getAddressFromId(id: string): Promise<string | null>` function.
+- [src/utils/ethers-utils.ts](https://github.com/AlanRacciatti/lw3-faucet/blob/main/src/utils/ethers-utils.ts) - Functions that interact with the blockchain. e.g: `sendTokens`, `getBalance`
+- [lang/lang.en-US.json](https://github.com/AlanRacciatti/lw3-faucet/blob/main/lang/lang.en-US.json) - JSON where is stored the data of the embeds, the arguments to the `/faucet` commands, etc.
