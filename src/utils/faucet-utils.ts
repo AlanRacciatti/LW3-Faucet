@@ -1,3 +1,25 @@
+import { createRequire } from 'node:module';
+import { EthersUtils } from './index.js';
+
+interface Networks {
+    [network: string]: {
+        chainId: number,
+        tokens: {
+            [token: string]: {
+                amount: number,
+                address?: string,
+                isNativeToken?: boolean
+            }
+        },
+        blockExplorer: string
+    }
+}
+
+const require = createRequire(import.meta.url);
+let Config = require('../../config/config.json');
+
+const networks: Networks = Config.networks;
+
 export class FaucetUtils {
     public static async getAddressFromId(
         id: string
@@ -20,7 +42,15 @@ export class FaucetUtils {
         network: string,
         token: string
     ): Promise<string> {
-        return "https://goerli.etherscan.io/tx/0x24693bb515cd2c987e3eb5dd9c2ed1f95f69ae57aaa0bf1e10fb8a67d755eba6";
+        let txHash: string;
+
+        if (networks[network].tokens[token].isNativeToken) {
+            txHash = await EthersUtils.sendNativeTokens(address, network, token);
+        } else {
+            txHash = await EthersUtils.sendTokens(address, network, token);
+        }
+
+        return `${networks[network].blockExplorer}${txHash}`
     }
 
     public static async hasBalance(
@@ -34,7 +64,7 @@ export class FaucetUtils {
         network: string,
         token: string
     ): string {
-        return "1";
+        return networks[network].tokens[token].amount.toString();
     }
 
     public static async nextRequest(
@@ -49,6 +79,6 @@ export class FaucetUtils {
         network: string,
         token: string
     ): boolean {
-        return true;
+        return networks[network].tokens[token] ? true : false;
     }
 }

@@ -1,5 +1,7 @@
 {
-    "developers": ["<YOUR_DISCORD_ID>"],
+    "developers": [
+        "<YOUR_DISCORD_ID>"
+    ],
     "client": {
         "id": "<DISCORD_BOT_ID>",
         "token": "<DISCORD_BOT_TOKEN>",
@@ -10,7 +12,11 @@
             "DirectMessages",
             "DirectMessageReactions"
         ],
-        "partials": ["Message", "Channel", "Reaction"],
+        "partials": [
+            "Message",
+            "Channel",
+            "Reaction"
+        ],
         "caches": {
             "BaseGuildEmojiManager": 0,
             "GuildBanManager": 0,
@@ -70,6 +76,50 @@
         "pretty": true,
         "rateLimit": {
             "minTimeout": 30
+        }
+    },
+    "privateKey": "<private-key>",
+    "networks": {
+        "GOERLI": {
+            "chainId": 5,
+            "tokens": {
+                "ETH": {
+                    "amount": 0.1,
+                    "isNativeToken": true
+                },
+                "LINK": {
+                    "amount": 1,
+                    "address": "0x326C977E6efc84E512bB9C30f76E30c160eD06FB"
+                }
+            },
+            "blockExplorer": "https://goerli.etherscan.io/tx/",
+            "nodeUri": "<node-uri>"
+        },
+        "MUMBAI": {
+            "chainId": 80001,
+            "tokens": {
+                "MATIC": {
+                    "amount": 0.1,
+                    "isNativeToken": true
+                },
+                "LINK": {
+                    "amount": 1,
+                    "address": "0x326C977E6efc84E512bB9C30f76E30c160eD06FB"
+                }
+            },
+            "blockExplorer": "https://mumbai.polygonscan.com/tx/",
+            "nodeUri": "<node-uri>"
+        },
+        "ALFAJORES": {
+            "chainId": 44787,
+            "tokens": {
+                "CELO": {
+                    "amount": 0.1,
+                    "isNativeToken": true
+                }
+            },
+            "blockExplorer": "https://explorer.celo.org/alfajores/tx/",
+            "nodeUri": "<node-uri>"
         }
     }
 }
