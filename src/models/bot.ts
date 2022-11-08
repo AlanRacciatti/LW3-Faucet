@@ -11,10 +11,8 @@ import {
     CommandHandler,
 } from '../events/index.js';
 import { Logger } from '../services/index.js';
-import { PartialUtils } from '../utils/index.js';
 
 const require = createRequire(import.meta.url);
-let Config = require('../../config/config.json');
 let Debug = require('../../config/debug.json');
 let Logs = require('../../lang/logs.json');
 

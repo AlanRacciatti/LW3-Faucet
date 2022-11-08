@@ -10,9 +10,9 @@ import {
 import { CustomClient } from './extensions/index.js';
 import { Bot } from './models/bot.js';
 import {
-    CommandRegistrationService,
     EventDataService,
     Logger,
+    CommandRegistrationService
 } from './services/index.js';
 import { InitializeDb } from './database/index.js';
 import { CommandHandler } from './events/command-handler.js';
@@ -39,7 +39,6 @@ async function start(): Promise<void> {
 
     // Commands
     let commands: Command[] = [
-        // Chat Commands
         new FaucetCommand(),
     ];
 

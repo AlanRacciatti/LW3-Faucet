@@ -1,154 +1,5 @@
 {
     "data": {
-        "displayEmbeds": {
-            "welcome": {
-                "title": "Thank you for using {{COM:bot.name}}!",
-                "description": [
-                    "{{REF:bot.description}}"
-                ],
-                "fields": [
-                    {
-                        "name": "Important {{REF:fields.commands}}",
-                        "value": [
-                            "**/{{REF:chatCommands.help}}** - {{REF:commandDescs.help}}"
-                        ]
-                    },
-                    {
-                        "name": "{{REF:fields.links}}",
-                        "value": [
-                            "{{REF:links.docsEmbed}}",
-                            "{{REF:links.supportEmbed}}"
-                        ]
-                    }
-                ]
-            },
-            "commands": {
-                "title": "{{COM:bot.name}} - Commands",
-                "description": [
-                    "**/{{REF:chatCommands.test}}** - {{REF:commandDescs.test}}",
-                    "**/{{REF:chatCommands.info}}** - {{REF:commandDescs.info}}"
-                ],
-                "fields": [
-                    {
-                        "name": "{{REF:fields.links}}",
-                        "value": [
-                            "{{REF:links.docsEmbed}}",
-                            "{{REF:links.supportEmbed}}"
-                        ]
-                    }
-                ]
-            },
-            "permissions": {
-                "title": "{{COM:bot.name}} - Permissions",
-                "description": "Want to restrict commands to certain roles, users, or channels? Set up permissions under the bot's **Integration** page in the Server Settings (or simply right-click the bot and select **Manage Integration**).",
-                "fields": [
-                    {
-                        "name": "{{REF:fields.links}}",
-                        "value": [
-                            "{{REF:links.docsEmbed}}",
-                            "{{REF:links.supportEmbed}}"
-                        ]
-                    }
-                ]
-            },
-            "faq": {
-                "title": "{{COM:bot.name}} - FAQ",
-                "description": [
-                    "Frequently Asked Questions about {{COM:bot.name}}.",
-                    "",
-                    "**How do I restrict who can run the commands?**",
-                    "Slash command permissions can be configured in the Server Settings. See \"/{{REF:chatCommands.help}} {{REF:arguments.option}}:{{REF:helpOptions.permissions}}\" for more information."
-                ],
-                "fields": [
-                    {
-                        "name": "{{REF:fields.links}}",
-                        "value": [
-                            "{{REF:links.docsEmbed}}",
-                            "{{REF:links.supportEmbed}}"
-                        ]
-                    }
-                ]
-            },
-            "test": {
-                "description": "Test command works!"
-            },
-            "viewDateJoined": {
-                "description": "{{TARGET}} joined on {{DATE}}!"
-            },
-            "viewDateSent": {
-                "description": "This message was sent on {{DATE}}!"
-            },
-            "about": {
-                "title": "{{COM:bot.name}} - About",
-                "description": "{{REF:bot.description}}",
-                "fields": [
-                    {
-                        "name": "Author",
-                        "value": "{{REF:links.authorEmbed}}"
-                    },
-                    {
-                        "name": "{{REF:fields.links}}",
-                        "value": [
-                            "{{REF:links.sourceEmbed}}",
-                            "{{REF:links.docsEmbed}}",
-                            "{{REF:links.voteEmbed}}",
-                            "{{REF:links.donateEmbed}}",
-                            "{{REF:links.supportEmbed}}",
-                            "{{REF:links.inviteEmbed}}"
-                        ]
-                    },
-                    {
-                        "name": "Created With",
-                        "value": [
-                            "{{REF:links.templateEmbed}}"
-                        ]
-                    }
-                ]
-            },
-            "translate": {
-                "title": "{{COM:bot.name}} - Translations",
-                "description": "Thank you to our translators who have made it possible for {{COM:bot.name}} to be used in the following languages. If you are interested in providing a translation, please contact the staff in our [support server]({{COM:links.support}})."
-            },
-            "dev": {
-                "title": "{{COM:bot.name}} - Developer Info",
-                "fields": [
-                    {
-                        "name": "Versions",
-                        "value": [
-                            "**Node.js**: {{NODE_VERSION}}",
-                            "**TypeScript**: {{TS_VERSION}}",
-                            "**ECMAScript**: {{ES_VERSION}}",
-                            "**discord.js**: {{DJS_VERSION}}"
-                        ]
-                    },
-                    {
-                        "name": "Stats",
-                        "value": [
-                            "**Shards**: {{SHARD_COUNT}}",
-                            "**Servers**: {{SERVER_COUNT}} ({{SERVER_COUNT_PER_SHARD}}/Shard)"
-                        ]
-                    },
-                    {
-                        "name": "Memory",
-                        "value": [
-                            "**RSS**: {{RSS_SIZE}} ({{RSS_SIZE_PER_SERVER}}/Server)",
-                            "**Heap**: {{HEAP_TOTAL_SIZE}} ({{HEAP_TOTAL_SIZE_PER_SERVER}}/Server)",
-                            "**Used**: {{HEAP_USED_SIZE}} ({{HEAP_USED_SIZE_PER_SERVER}}/Server)"
-                        ]
-                    },
-                    {
-                        "name": "IDs",
-                        "value": [
-                            "**Hostname**: {{HOSTNAME}}",
-                            "**Shard ID**: {{SHARD_ID}}",
-                            "**Server ID**: {{SERVER_ID}}",
-                            "**Bot ID**: {{BOT_ID}}",
-                            "**User ID**: {{USER_ID}}"
-                        ]
-                    }
-                ]
-            }
-        },
         "faucetEmbeds": {
             "transaction": {
                 "title": "{{COM:bot.name}} - Sending funds",
@@ -174,10 +25,6 @@
         "validationEmbeds": {
             "cooldownHit": {
                 "description": "You can only run this command {{AMOUNT}} time(s) every {{INTERVAL}}. Please wait before attempting this command again.",
-                "color": "{{COM:colors.warning}}"
-            },
-            "devOnly": {
-                "description": "This action can only be done by developers.",
                 "color": "{{COM:colors.warning}}"
             },
             "missingClientPerms": {
@@ -211,14 +58,6 @@
                     }
                 ],
                 "color": "{{COM:colors.error}}"
-            },
-            "startupInProcess": {
-                "description": "{{COM:bot.name}} is still starting up. Try again later.",
-                "color": "{{COM:colors.warning}}"
-            },
-            "notImplemented": {
-                "description": "This feature has not been implemented yet!",
-                "color": "{{COM:colors.warning}}"
             }
         },
         "channelRegexes": {
@@ -233,9 +72,6 @@
             "description": "{{REF:links.templateEmbed}} helps give developers a starting point for new Discord bots, so that much of the initial setup can be avoided and developers can instead focus on meaningful bot features."
         },
         "chatCommands": {
-            "help": "help",
-            "info": "info",
-            "test": "test",
             "faucet": "faucet"
         },
         "userCommands": {
@@ -250,14 +86,9 @@
             "token": "token"
         },
         "commandDescs": {
-            "help": "Get help with commands, permissions, FAQ, etc.",
-            "info": "View bot info.",
-            "test": "Run the test command.",
             "faucet": "Request tokens for a network."
         },
         "argDescs": {
-            "helpOption": "Option.",
-            "infoOption": "Option.",
             "network": "Network.",
             "token": "Token."
         },
@@ -308,16 +139,6 @@
             "ViewChannel": "View Channel(s)",
             "ViewGuildInsights": "View Server Insights"
         },
-        "helpOptions": {
-            "commands": "Commands",
-            "permissions": "Permissions",
-            "faq": "FAQ"
-        },
-        "infoOptions": {
-            "about": "About",
-            "translate": "Translate",
-            "dev": "Dev"
-        },
         "faucetNetworkOptions": {
             "goerli": "goerli",
             "mumbai": "mumbai",
@@ -328,13 +149,6 @@
             "matic": "MATIC",
             "celo": "CELO",
             "link": "LINK"
-        },
-        "yesNo": {
-            "yes": "Yes",
-            "no": "No"
-        },
-        "other": {
-            "na": "N/A"
         },
         "links": {
             "authorEmbed": "[{{COM:bot.author}}]({{COM:links.author}})",
