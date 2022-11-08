@@ -3,6 +3,7 @@
 This project was made for [LearnWeb3DAO](https://learnweb3.io) as a project for a bountie of EarnWeb3. It uses the [Kevin Novak's Typescript Discord Bot Template](https://github.com/KevinNovak/Discord-Bot-TypeScript-Template).
 
 ## Command Structure
+
 The Discord bot accepts a command that looks like this:
 
 `/faucet <network> <token>` and then disburse a predefined amount of funds (specific to that token on that network) to the ETH address associated with that person's Discord account.
@@ -10,40 +11,44 @@ The Discord bot accepts a command that looks like this:
 ## Demo
 
 #### Sending funds (attach link to block explorer)
+
 ![Screen Shot 2022-11-07 at 03 42 11](https://user-images.githubusercontent.com/77933451/200242224-d01dd1f6-6428-465e-b593-d6baa68cd4a9.png)
 
 #### Tokens not supported
+
 ![Screen Shot 2022-11-07 at 03 48 56](https://user-images.githubusercontent.com/77933451/200243346-30776d6e-7f04-4f70-8f09-93f4a48873f4.png)
 
 #### Request in cooldown
+
 ![Screen Shot 2022-11-07 at 03 47 33](https://user-images.githubusercontent.com/77933451/200243099-eed7e7b5-aab3-45d7-953a-260dc1f13c4f.png)
 
 #### Insufficient funds
+
 ![Screen Shot 2022-11-07 at 03 45 57](https://user-images.githubusercontent.com/77933451/200242852-ae5367ae-8406-4efa-98c9-e375498a1737.png)
 
 ## Supported networks
 
 Currently, the following networks are supported by default:
 
-- Ethereum Goerli (ETH & LINK)
-- Polygon Mumbai (MATIC & LINK)
-- Celo Alfajores (CELO)
+-   Ethereum Goerli (ETH & LINK)
+-   Polygon Mumbai (MATIC & LINK)
+-   Celo Alfajores (CELO)
 
 Anyways, it is possible to add any token of any network (EVM) by using the following interface:
 
 ```typescript
 interface Networks {
     [network: string]: {
-        chainId: number,
+        chainId: number;
         tokens: {
             [token: string]: {
-                amount: number,
-                address?: string,
-                isNativeToken?: boolean
-            }
-        },
-        blockExplorer: string
-    }
+                amount: number;
+                address?: string;
+                isNativeToken?: boolean;
+            };
+        };
+        blockExplorer: string;
+    };
 }
 ```
 
@@ -51,10 +56,10 @@ interface Networks {
 
 ### Faucet:
 
-- People can request tokens via the `/faucet <network> <token>` command.
-- Embeds usage for better UI :).
-- Validations with warning/error messages.
-- Cooldown for requesting tokens
+-   People can request tokens via the `/faucet <network> <token>` command.
+-   Embeds usage for better UI :).
+-   Validations with warning/error messages.
+-   Cooldown for requesting tokens
 
 ### Developer Friendly:
 
@@ -66,19 +71,18 @@ interface Networks {
 -   Support for running with [Docker](https://www.docker.com/).
 
 ### Connecting to LW3 Backend:
+
 To send the address based on the Discord ID, you will need to connect to your backend. I've created a function in [faucet-utils.ts](https://github.com/AlanRacciatti/lw3-faucet/blob/main/src/utils/faucet-utils.ts) that you'll have to complete and then the bot will be ready to go
 
 ```typescript
 export class FaucetUtils {
-    public static async getAddressFromId(
-        id: string
-    ): Promise<string | null> {
+    public static async getAddressFromId(id: string): Promise<string | null> {
         // TODO: Connect to LW3 backend plz
 
-        return "0x6864dC5998c25Db320D3370A53592E44a246FFf4"; // chiin.eth :)
+        return '0x6864dC5998c25Db320D3370A53592E44a246FFf4'; // chiin.eth :)
     }
 
-    // More stuff here...    
+    // More stuff here...
 }
 ```
 
@@ -99,6 +103,7 @@ export class FaucetUtils {
         - `client.token` - Your discord bot's token.
         - `privateKey` - The private key of the account that will be sending funds.
         - `networks.{network}.nodeUri` - The URI to the node providers.
+        - `database` - All fields in this object are for the database connection. Note: You can create a local database by running `docker-compose up -d` thanks to the `docker-compose.yml` file
 4. Install packages.
     - Navigate into the downloaded source files and type `npm install`.
 5. Register commands.
@@ -110,12 +115,16 @@ export class FaucetUtils {
 6. Start the bot.
     - Run `npm start` and let the faucet send funds to your students :).
 
-
 ### Support
+
 This project has **a lot** of code that came with the template and I'm not using that I definitely need to clean up. Anyways, at the beginning it will be possible to be used. If you want to take to what I've made, the most important files are:
 
-- [src/commands/chat/faucet-command.ts](https://github.com/AlanRacciatti/lw3-faucet/blob/main/src/commands/chat/faucet-command.ts) - Event listener that responds with an embed.
-- [src/commands/args.ts](https://github.com/AlanRacciatti/lw3-faucet/blob/main/src/commands/args.ts) - Declaration of the `FAUCET_NETWORK_OPTION` and the `FAUCET_TOKEN_OPTION`, with the possible args to the `/faucet` command
-- [src/utils/faucet-utils.ts](https://github.com/AlanRacciatti/lw3-faucet/blob/main/src/utils/faucet-utils.ts) - Declaration of the functions with the logics that uses the `faucet-command.ts` file. **Important**: Here you will integrate your backend in the `getAddressFromId(id: string): Promise<string | null>` function.
-- [src/utils/ethers-utils.ts](https://github.com/AlanRacciatti/lw3-faucet/blob/main/src/utils/ethers-utils.ts) - Functions that interact with the blockchain. e.g: `sendTokens`, `getBalance`
-- [lang/lang.en-US.json](https://github.com/AlanRacciatti/lw3-faucet/blob/main/lang/lang.en-US.json) - JSON where is stored the data of the embeds, the arguments to the `/faucet` commands, etc.
+-   [src/commands/chat/faucet-command.ts](https://github.com/AlanRacciatti/lw3-faucet/blob/main/src/commands/chat/faucet-command.ts) - Event listener that responds with an embed.
+-   [src/commands/args.ts](https://github.com/AlanRacciatti/lw3-faucet/blob/main/src/commands/args.ts) - Declaration of the `FAUCET_NETWORK_OPTION` and the `FAUCET_TOKEN_OPTION`, with the possible args to the `/faucet` command
+-   [src/utils/faucet-utils.ts](https://github.com/AlanRacciatti/lw3-faucet/blob/main/src/utils/faucet-utils.ts) - Declaration of the functions with the logics that uses the `faucet-command.ts` file. **Important**: Here you will integrate your backend in the `getAddressFromId(id: string): Promise<string | null>` function.
+-   [src/utils/ethers-utils.ts](https://github.com/AlanRacciatti/lw3-faucet/blob/main/src/utils/ethers-utils.ts) - Functions that interact with the blockchain. e.g: `sendTokens`, `getBalance`
+-   [src/utils/request-cooldown-utils.ts](https://github.com/AlanRacciatti/lw3-faucet/blob/main/src/utils/request-cooldown-utils.ts) - Functions that interact with the database.
+-   [src/database/data-source.ts](https://github.com/AlanRacciatti/lw3-faucet/blob/main/src/database/data-source.ts) - Setup of database connection.
+-   [src/database/request-cooldown-entity.ts](https://github.com/AlanRacciatti/lw3-faucet/blob/main/src/database/request-cooldown-entity.ts) - Declaration of the request cooldown entity.
+-   [src/database/index.ts](https://github.com/AlanRacciatti/lw3-faucet/blob/main/src/database/index.ts) - Database connection initialization.
+-   [lang/lang.en-US.json](https://github.com/AlanRacciatti/lw3-faucet/blob/main/lang/lang.en-US.json) - JSON where is stored the data of the embeds, the arguments to the `/faucet` commands, etc.
