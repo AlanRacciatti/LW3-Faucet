@@ -2,37 +2,20 @@ import { REST } from '@discordjs/rest';
 import { Options, Partials } from 'discord.js';
 import { createRequire } from 'node:module';
 
-import { Button } from './buttons/index.js';
-import { FaucetCommand, HelpCommand, InfoCommand, TestCommand } from './commands/chat/index.js';
+import { FaucetCommand } from './commands/chat/index.js';
 import {
     ChatCommandMetadata,
-    Command,
-    MessageCommandMetadata,
-    UserCommandMetadata,
+    Command
 } from './commands/index.js';
-import { ViewDateSent } from './commands/message/index.js';
-import { ViewDateJoined } from './commands/user/index.js';
-import {
-    ButtonHandler,
-    CommandHandler,
-    GuildJoinHandler,
-    GuildLeaveHandler,
-    MessageHandler,
-    ReactionHandler,
-    TriggerHandler,
-} from './events/index.js';
 import { CustomClient } from './extensions/index.js';
-import { Job } from './jobs/index.js';
 import { Bot } from './models/bot.js';
-import { Reaction } from './reactions/index.js';
 import {
     CommandRegistrationService,
     EventDataService,
-    JobService,
     Logger,
 } from './services/index.js';
-import { Trigger } from './triggers/index.js';
 import { InitializeDb } from './database/index.js';
+import { CommandHandler } from './events/command-handler.js';
 
 const require = createRequire(import.meta.url);
 let Config = require('../config/config.json');
@@ -57,48 +40,11 @@ async function start(): Promise<void> {
     // Commands
     let commands: Command[] = [
         // Chat Commands
-        new HelpCommand(),
-        new InfoCommand(),
-        new TestCommand(),
         new FaucetCommand(),
-
-        // Message Context Commands
-        new ViewDateSent(),
-
-        // User Context Commands
-        new ViewDateJoined(),
-
-        // TODO: Add new commands here
-    ];
-
-    // Buttons
-    let buttons: Button[] = [
-        // TODO: Add new buttons here
-    ];
-
-    // Reactions
-    let reactions: Reaction[] = [
-        // TODO: Add new reactions here
-    ];
-
-    // Triggers
-    let triggers: Trigger[] = [
-        // TODO: Add new triggers here
     ];
 
     // Event handlers
-    let guildJoinHandler = new GuildJoinHandler(eventDataService);
-    let guildLeaveHandler = new GuildLeaveHandler();
     let commandHandler = new CommandHandler(commands, eventDataService);
-    let buttonHandler = new ButtonHandler(buttons, eventDataService);
-    let triggerHandler = new TriggerHandler(triggers, eventDataService);
-    let messageHandler = new MessageHandler(triggerHandler);
-    let reactionHandler = new ReactionHandler(reactions, eventDataService);
-
-    // Jobs
-    let jobs: Job[] = [
-        // TODO: Add new jobs here
-    ];
 
     // Database
     InitializeDb();
@@ -107,13 +53,7 @@ async function start(): Promise<void> {
     let bot = new Bot(
         Config.client.token,
         client,
-        guildJoinHandler,
-        guildLeaveHandler,
-        messageHandler,
         commandHandler,
-        buttonHandler,
-        reactionHandler,
-        new JobService(jobs)
     );
 
     // Register
@@ -123,8 +63,6 @@ async function start(): Promise<void> {
             let commandRegistrationService = new CommandRegistrationService(rest);
             let localCmds = [
                 ...Object.values(ChatCommandMetadata).sort((a, b) => (a.name > b.name ? 1 : -1)),
-                ...Object.values(MessageCommandMetadata).sort((a, b) => (a.name > b.name ? 1 : -1)),
-                ...Object.values(UserCommandMetadata).sort((a, b) => (a.name > b.name ? 1 : -1)),
             ];
             await commandRegistrationService.process(localCmds, process.argv);
         } catch (error) {
