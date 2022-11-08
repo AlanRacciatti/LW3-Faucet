@@ -20,7 +20,7 @@ The Discord bot accepts a command that looks like this:
 
 #### Request in cooldown
 
-![Screen Shot 2022-11-07 at 03 47 33](https://user-images.githubusercontent.com/77933451/200243099-eed7e7b5-aab3-45d7-953a-260dc1f13c4f.png)
+![Screen Shot 2022-11-08 at 13 53 21](https://user-images.githubusercontent.com/77933451/200626826-0555b0cc-ab11-4d25-b3b8-052efa4109ca.png)
 
 #### Insufficient funds
 
