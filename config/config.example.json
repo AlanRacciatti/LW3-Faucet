@@ -79,6 +79,13 @@
         }
     },
     "privateKey": "<private-key>",
+    "database": {
+        "username": "<username>",
+        "password": "<password>",
+        "database": "<database>",
+        "host": "<host>",
+        "port": "<port>"
+    },
     "networks": {
         "GOERLI": {
             "chainId": 5,

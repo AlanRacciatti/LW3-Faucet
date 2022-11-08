@@ -1,7 +1,8 @@
 import { BigNumber } from 'ethers';
 import { createRequire } from 'node:module';
-import { EthersUtils } from './index.js';
+import { EthersUtils, RequestCooldownUtils } from './index.js';
 import { ethers } from 'ethers';
+import { RequestCooldown } from '../database/index.js';
 
 interface Networks {
     [network: string]: {
@@ -29,14 +30,6 @@ export class FaucetUtils {
         // TODO: Connect to LW3 backend plz
 
         return "0x6864dC5998c25Db320D3370A53592E44a246FFf4"; // chiin.eth :)
-    }
-
-    public static async getAddressRequestAvailability(
-        address: string,
-        network: string,
-        token: string
-    ): Promise<boolean> {
-        return true;
     }
 
     public static async sendTokens(
@@ -76,8 +69,35 @@ export class FaucetUtils {
         address: string,
         network: string,
         token: string
-    ): Promise<string> {
-        return "2022-06-07 22:00";
+    ): Promise<string | null> {
+        const requestCooldown = await RequestCooldownUtils.get(address, network, token);
+
+        if (requestCooldown) {
+            const nextRequest = requestCooldown.lastRequest.setTime(requestCooldown.lastRequest.getTime() + Config.requestCooldown * 60 * 60 * 1000);
+            const currentTime = new Date().getTime();
+
+            if (nextRequest <= currentTime) {
+                return null;
+            }
+
+            let hoursLeft: string | number = Math.floor((nextRequest - currentTime) / 60 / 60 / 1000);
+            let minutesLeft: string | number = Math.floor(((nextRequest - currentTime) / 60 / 1000) % 60);
+
+            hoursLeft = hoursLeft.toString().length == 1 ? `0${hoursLeft}` : hoursLeft;
+            minutesLeft = minutesLeft.toString().length == 1 ? `0${minutesLeft}` : minutesLeft;
+
+            return `${hoursLeft}:${minutesLeft}hs`;
+        } else {
+            return null;
+        }
+    }
+
+    public static updateRequestCooldown(
+        address: string,
+        network: string,
+        token: string
+    ): void {
+        RequestCooldownUtils.createOrUpdate(address, network, token);
     }
 
     public static isTokenSupported(

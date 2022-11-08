@@ -13,3 +13,4 @@ export { StringUtils } from './string-utils.js';
 export { ThreadUtils } from './thread-utils.js';
 export { FaucetUtils } from './faucet-utils.js';
 export { EthersUtils } from './ethers-utils.js';
+export { RequestCooldownUtils } from './request-cooldown-utils.js';

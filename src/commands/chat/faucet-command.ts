@@ -21,10 +21,11 @@ export class FaucetCommand implements Command {
 
         let embed: EmbedBuilder;
 
-        let { id } = intr.user;
-        let address: string | null = await FaucetUtils.getAddressFromId(id);
-        let canRequestTokens: boolean = await FaucetUtils.getAddressRequestAvailability(address, network, token);
-        let isTokenSupported: boolean = await FaucetUtils.isTokenSupported(network, token);
+        const { id } = intr.user;
+        const address: string | null = await FaucetUtils.getAddressFromId(id);
+        const nextRequest: string | null = await FaucetUtils.nextRequest(address, network, token);
+        const isTokenSupported: boolean = await FaucetUtils.isTokenSupported(network, token);
+        const canRequestTokens: boolean = !nextRequest // If nextRequest is null, address can request token
 
         if (!isTokenSupported) {
             embed = Lang.getEmbed('faucetEmbeds.notSupported', data.lang, {
@@ -36,6 +37,7 @@ export class FaucetCommand implements Command {
                 let faucetHasBalance: boolean = await FaucetUtils.hasBalance(network, token)
                 if (faucetHasBalance) {
                     let txLink = await FaucetUtils.sendTokens(address, network, token);
+                    FaucetUtils.updateRequestCooldown(address, network, token);
                     embed = Lang.getEmbed('faucetEmbeds.transaction', data.lang, {
                         network,
                         token,
@@ -53,7 +55,7 @@ export class FaucetCommand implements Command {
                 embed = Lang.getEmbed('faucetEmbeds.notAllowed', data.lang, {
                     network,
                     token,
-                    nextRequest: await FaucetUtils.nextRequest(address, network, token)
+                    nextRequest
                 })
             }
         }

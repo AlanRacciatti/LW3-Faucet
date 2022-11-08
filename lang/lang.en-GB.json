@@ -162,7 +162,7 @@
             },
             "notAllowed": {
                 "title": "{{COM:bot.name}} - Request cooldown",
-                "description": "Your next request of {{token}} on {{network}} network can't be done until {{nextRequest}}",
+                "description": "You must wait `{{nextRequest}}` until your next request of {{token}} on {{network}} network",
                 "color": "{{COM:colors.warning}}"
             },
             "notSupported": {

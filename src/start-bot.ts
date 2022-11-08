@@ -32,6 +32,7 @@ import {
     Logger,
 } from './services/index.js';
 import { Trigger } from './triggers/index.js';
+import { InitializeDb } from './database/index.js';
 
 const require = createRequire(import.meta.url);
 let Config = require('../config/config.json');
@@ -98,6 +99,9 @@ async function start(): Promise<void> {
     let jobs: Job[] = [
         // TODO: Add new jobs here
     ];
+
+    // Database
+    InitializeDb();
 
     // Bot
     let bot = new Bot(
