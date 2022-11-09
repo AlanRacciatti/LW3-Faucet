@@ -25,6 +25,7 @@
     "links": {
         "author": "https://github.com/AlanRacciatti",
         "template": "https://github.com/KevinNovak/Discord-Bot-TypeScript-Template",
+        "faucetTemplate": "https://github.com/AlanRacciatti/lw3-faucet",
         "support": "https://twitter.com/RockChiin"
     }
 }
