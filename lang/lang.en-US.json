@@ -146,9 +146,9 @@
         },
         "faucetTokenOptions": {
             "eth": "ETH",
+            "link": "LINK",
             "matic": "MATIC",
-            "celo": "CELO",
-            "link": "LINK"
+            "celo": "CELO"
         },
         "links": {
             "authorEmbed": "[{{COM:bot.author}}]({{COM:links.author}})",

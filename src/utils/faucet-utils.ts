@@ -2,6 +2,9 @@ import { BigNumber } from 'ethers';
 import { createRequire } from 'node:module';
 import { EthersUtils, RequestCooldownUtils } from './index.js';
 import { ethers } from 'ethers';
+import { writeFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
 
 export interface Networks {
     [network: string]: {
@@ -20,6 +23,9 @@ export interface Networks {
 
 const require = createRequire(import.meta.url);
 let Config = require('../../config/config.json');
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const networks: Networks = Config.networks;
 
@@ -105,5 +111,40 @@ export class FaucetUtils {
         token: string
     ): boolean {
         return networks[network].tokens[token] ? true : false;
+    }
+
+    public static async updateFaucetOptions() {
+        const dataPath = '../../lang/lang.en-US.json';
+
+        const data = require(dataPath);
+        const dataRoute = join(__dirname, '../../lang/lang.en-US.json')
+
+        const networks = Object.keys(Config.networks);
+        let networksData = Object.values(Config.networks);
+        let tokens = []
+
+        networksData.forEach(networkData => {
+            Object.keys(networkData['tokens']).forEach(token => {
+                if (tokens.indexOf(token) === -1) {
+                    tokens.push(token);
+                }
+            })
+        })
+
+        let newNetworkOptions = {};
+        let newTokenOptions = {};
+
+        networks.forEach(network => {
+            newNetworkOptions[network.toLowerCase()] = network.toLowerCase();
+        })
+
+        tokens.forEach(token => {
+            newTokenOptions[token.toLowerCase()] = token;
+        })
+
+        data.refs.faucetNetworkOptions = newNetworkOptions;
+        data.refs.faucetTokenOptions = newTokenOptions;
+
+        writeFileSync(dataRoute, JSON.stringify(data, null, 4));
     }
 }
