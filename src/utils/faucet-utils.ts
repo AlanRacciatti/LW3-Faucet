@@ -2,9 +2,8 @@ import { BigNumber } from 'ethers';
 import { createRequire } from 'node:module';
 import { EthersUtils, RequestCooldownUtils } from './index.js';
 import { ethers } from 'ethers';
-import { RequestCooldown } from '../database/index.js';
 
-interface Networks {
+export interface Networks {
     [network: string]: {
         chainId: number,
         tokens: {
@@ -14,7 +13,8 @@ interface Networks {
                 isNativeToken?: boolean
             }
         },
-        blockExplorer: string
+        blockExplorer: string,
+        nodeUri: string
     }
 }
 

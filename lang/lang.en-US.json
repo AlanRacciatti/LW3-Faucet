@@ -145,7 +145,7 @@
             "alfajores": "alfajores"
         },
         "faucetTokenOptions": {
-            "ether": "ETH",
+            "eth": "ETH",
             "matic": "MATIC",
             "celo": "CELO",
             "link": "LINK"

@@ -1,8 +1,23 @@
 import { APIApplicationCommandBasicOption, ApplicationCommandOptionType } from 'discord.js';
-
-import { FaucetNetworkOption, FaucetTokenOption } from '../enums/index.js';
 import { Language } from '../models/enum-helpers/index.js';
 import { Lang } from '../services/index.js';
+
+import { createRequire } from 'node:module';
+
+const require = createRequire(import.meta.url);
+let Config = require('../../config/config.json');
+
+const networks = Object.keys(Config.networks);
+let networksData = Object.values(Config.networks);
+let tokens = []
+
+networksData.forEach(network => {
+    Object.keys(network['tokens']).forEach(token => {
+        if (tokens.indexOf(token) === -1) {
+            tokens.push(token);
+        }
+    })
+});
 
 export class Args {
     public static readonly FAUCET_NETWORK_OPTION: APIApplicationCommandBasicOption = {
@@ -11,23 +26,13 @@ export class Args {
         description: Lang.getRef('argDescs.network', Language.Default),
         description_localizations: Lang.getRefLocalizationMap('argDescs.network'),
         type: ApplicationCommandOptionType.String,
-        choices: [
-            {
-                name: Lang.getRef('faucetNetworkOptions.goerli', Language.Default),
-                name_localizations: Lang.getRefLocalizationMap('faucetNetworkOptions.goerli'),
-                value: FaucetNetworkOption.GOERLI,
-            },
-            {
-                name: Lang.getRef('faucetNetworkOptions.mumbai', Language.Default),
-                name_localizations: Lang.getRefLocalizationMap('faucetNetworkOptions.mumbai'),
-                value: FaucetNetworkOption.MUMBAI,
-            },
-            {
-                name: Lang.getRef('faucetNetworkOptions.alfajores', Language.Default),
-                name_localizations: Lang.getRefLocalizationMap('faucetNetworkOptions.alfajores'),
-                value: FaucetNetworkOption.ALFAJORES,
-            },
-        ],
+        choices: networks.map(network => {
+            return {
+                name: Lang.getRef(`faucetNetworkOptions.${network.toLowerCase()}`, Language.Default),
+                name_localizations: Lang.getRefLocalizationMap(`faucetNetworkOptions.${network.toLowerCase()}`),
+                value: network,
+            }
+        })
     };
     public static readonly FAUCET_TOKEN_OPTION: APIApplicationCommandBasicOption = {
         name: Lang.getRef('arguments.token', Language.Default),
@@ -35,27 +40,12 @@ export class Args {
         description: Lang.getRef('argDescs.token', Language.Default),
         description_localizations: Lang.getRefLocalizationMap('argDescs.token'),
         type: ApplicationCommandOptionType.String,
-        choices: [
-            {
-                name: Lang.getRef('faucetTokenOptions.ether', Language.Default),
-                name_localizations: Lang.getRefLocalizationMap('faucetTokenOptions.ether'),
-                value: FaucetTokenOption.ETH,
-            },
-            {
-                name: Lang.getRef('faucetTokenOptions.matic', Language.Default),
-                name_localizations: Lang.getRefLocalizationMap('faucetTokenOptions.matic'),
-                value: FaucetTokenOption.MATIC,
-            },
-            {
-                name: Lang.getRef('faucetTokenOptions.celo', Language.Default),
-                name_localizations: Lang.getRefLocalizationMap('faucetTokenOptions.celo'),
-                value: FaucetTokenOption.CELO,
-            },
-            {
-                name: Lang.getRef('faucetTokenOptions.link', Language.Default),
-                name_localizations: Lang.getRefLocalizationMap('faucetTokenOptions.link'),
-                value: FaucetTokenOption.LINK,
-            },
-        ],
+        choices: tokens.map(token => {
+            return {
+                name: Lang.getRef(`faucetTokenOptions.${token.toLowerCase()}`, Language.Default),
+                name_localizations: Lang.getRefLocalizationMap(`faucetTokenOptions.${token.toLowerCase()}`),
+                value: token,
+            }
+        })
     };
 }

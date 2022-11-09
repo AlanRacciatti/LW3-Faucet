@@ -1,22 +1,7 @@
 import { createRequire } from 'node:module';
 import { BigNumber, Contract, ethers, providers, Wallet } from 'ethers';
-import { FaucetNetworkOption } from '../enums/faucet-option.js';
 import { CeloProvider, CeloWallet } from '@celo-tools/celo-ethers-wrapper';
-
-interface Networks {
-    [network: string]: {
-        chainId: number,
-        tokens: {
-            [token: string]: {
-                amount: number,
-                address?: string,
-                isNativeToken?: boolean
-            }
-        },
-        blockExplorer: string,
-        nodeUri: string
-    }
-}
+import { Networks } from './faucet-utils.js';
 
 const require = createRequire(import.meta.url);
 let Config = require('../../config/config.json');
@@ -29,7 +14,7 @@ export class EthersUtils {
     private static async getSigner(network): Promise<Wallet> {
         let signer: Wallet;
 
-        if (network === FaucetNetworkOption.ALFAJORES) {
+        if (network === "ALFAJORES") { // Celo needs a specific provider, it sucks right?
             const provider = new CeloProvider(networks[network].nodeUri);
             await provider.ready;
             signer = new CeloWallet(privateKey, provider);
