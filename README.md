@@ -42,7 +42,7 @@ interface Networks {
         chainId: number;
         tokens: {
             [token: string]: {
-                amount: number;
+                amount: number; // @notice that this amount is measured in ETH 
                 address?: string;
                 isNativeToken?: boolean;
             };
@@ -114,3 +114,82 @@ export class FaucetUtils {
         - It may take up to an hour for command changes to appear.
 6. Start the bot.
     - Run `npm start` and let the faucet send funds to your students :).
+    
+## Support
+
+### Adding new tokens/networks
+Supposing we have the following `networks` property in our `config.json`:
+
+```json
+"networks": {
+        "GOERLI": {
+            "chainId": 5,
+            "tokens": {
+                "ETH": {
+                    "amount": 0.001,
+                    "isNativeToken": true
+                }
+            },
+            "blockExplorer": "https://goerli.etherscan.io/tx/",
+            "nodeUri": "<node-uri>"
+        },
+```
+
+##### Adding new tokens
+We have to add a new property in the `tokens` object with the name of our token, and add a `amount` and `address` field. For example, for adding the LINK token, we should do it this way:
+
+
+```json
+"networks": {
+        "GOERLI": {
+            "chainId": 5,
+            "tokens": {
+                "ETH": {
+                    "amount": 0.001,
+                    "isNativeToken": true
+                },
+                "LINK": {
+                    "amount": 0.1,
+                    "address": "0x326C977E6efc84E512bB9C30f76E30c160eD06FB"
+                }
+            },
+            "blockExplorer": "https://goerli.etherscan.io/tx/",
+            "nodeUri": "<node-uri>"
+        },
+```
+
+After making this change, run `npm run update:faucet` to update the commands
+
+##### Adding new networks
+We have to add a new property in the `networks` object with the name of the network and add the fields: `chainId`, `blockExplorer` & `nodeUri`. For adding the mumbai network with the LINK token, we should do it this way:
+
+```json
+        "GOERLI": {
+            "chainId": 5,
+            "tokens": {
+                "ETH": {
+                    "amount": 0.001,
+                    "isNativeToken": true
+                },
+                "LINK": {
+                    "amount": 0.1,
+                    "address": "0x326C977E6efc84E512bB9C30f76E30c160eD06FB"
+                }
+            },
+            "blockExplorer": "https://goerli.etherscan.io/tx/",
+            "nodeUri": "<node-uri>"
+        },
+        "MUMBAI": {
+            "chainId": 80001,
+            "tokens": {
+                "LINK": {
+                    "amount": 0.1,
+                    "address": "0x326C977E6efc84E512bB9C30f76E30c160eD06FB"
+                }
+            },
+            "blockExplorer": "https://mumbai.polygonscan.com/tx/",
+            "nodeUri": "<node-uri>"
+        }
+```
+
+After making this change, run `npm run update:faucet` to update the commands
