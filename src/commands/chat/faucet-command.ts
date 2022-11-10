@@ -1,8 +1,9 @@
 import { ChatInputCommandInteraction, EmbedBuilder, PermissionsString } from 'discord.js';
+
 import { Language } from '../../models/enum-helpers/index.js';
 import { EventData } from '../../models/internal-models.js';
 import { Lang } from '../../services/index.js';
-import { InteractionUtils, FaucetUtils } from '../../utils/index.js';
+import { FaucetUtils, InteractionUtils } from '../../utils/index.js';
 import { Command, CommandDeferType } from '../index.js';
 
 export class FaucetCommand implements Command {
@@ -24,8 +25,8 @@ export class FaucetCommand implements Command {
         const { id } = intr.user;
         const address: string | null = await FaucetUtils.getAddressFromId(id);
         const nextRequest: string | null = await FaucetUtils.nextRequest(address, network, token);
-        const isTokenSupported: boolean = await FaucetUtils.isTokenSupported(network, token);
-        const canRequestTokens: boolean = !nextRequest // If nextRequest is null, address can request token
+        const isTokenSupported: boolean = FaucetUtils.isTokenSupported(network, token);
+        const canRequestTokens = !nextRequest // If nextRequest is null, address can request token
 
         if (!isTokenSupported) {
             embed = Lang.getEmbed('faucetEmbeds.notSupported', data.lang, {

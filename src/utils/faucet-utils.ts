@@ -1,10 +1,10 @@
-import { BigNumber } from 'ethers';
-import { createRequire } from 'node:module';
-import { EthersUtils, RequestCooldownUtils } from './index.js';
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { writeFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
 import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+import { EthersUtils, RequestCooldownUtils } from './index.js';
 
 export interface Networks {
     [network: string]: {
@@ -31,11 +31,11 @@ const networks: Networks = Config.networks;
 
 export class FaucetUtils {
     public static async getAddressFromId(
-        id: string
+        discordId: string
     ): Promise<string | null> {
-        // TODO: Connect to LW3 backend plz
+        console.log(`Lol I'm getting the address from the discord id ${discordId} I'm great!`);
 
-        return "0x6864dC5998c25Db320D3370A53592E44a246FFf4"; // chiin.eth :)
+        return '0x6864dC5998c25Db320D3370A53592E44a246FFf4'; // chiin.eth :)
     }
 
     public static async sendTokens(
@@ -113,7 +113,7 @@ export class FaucetUtils {
         return networks[network].tokens[token] ? true : false;
     }
 
-    public static async updateFaucetOptions() {
+    public static async updateFaucetOptions(): Promise<void> {
         const dataPath = '../../lang/lang.en-US.json';
 
         const data = require(dataPath);
